@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text Extractor</title>
+<style>
+  body { font-family: sans-serif; padding: 2rem; background: #f0f0f0; }
+  textarea { width: 100%; height: 100px; font-size: 1.2rem; }
+  button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+  #output { margin-top: 1rem; font-size: 1.2rem; background: #fff; padding: 1rem; border-radius: 8px; }
+</style>
+</head>
+<body>
+<h2>Glitched Text Extractor</h2>
+<textarea id="input" placeholder="Paste your text here..."></textarea>
+<br>
+<button onclick="extractText()">Extract Text</button>
+<div id="output"></div>
+
+<script>
+function extractText() {
+  const input = document.getElementById('input').value;
+  // Keep only printable characters (exclude control/format/tag characters)
+  const cleaned = Array.from(input).filter(ch => {
+    const cat = ch.charCodeAt(0);
+    // Exclude control characters (U+0000–U+001F, U+007F) and tag characters (U+E0000–U+E007F)
+    return !( (cat >= 0x0000 && cat <= 0x001F) || cat === 0x007F || (cat >= 0xE0000 && cat <= 0xE007F) );
+  }).join('');
+  document.getElementById('output').textContent = cleaned;
+}
+</script>
+</body>
+</html>
